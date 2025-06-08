@@ -1,72 +1,97 @@
-/* style.css */
+/* style.css - style jeu vidéo rétro néon */
+
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
 body {
-  background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  color: #4b2e83;
+  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+  font-family: 'Press Start 2P', cursive;
+  color: #00ffea;
   margin: 0;
   padding: 0;
+  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
 }
 
 .container {
-  background: rgba(255, 255, 255, 0.85);
+  background: #111a21;
+  border: 4px solid #00ffea;
   padding: 30px 40px;
-  border-radius: 15px;
-  box-shadow: 0 8px 20px rgba(75, 46, 131, 0.3);
-  max-width: 500px;
+  border-radius: 12px;
+  max-width: 600px;
   text-align: center;
+  box-shadow: 0 0 20px #00ffea, inset 0 0 10px #00ffea;
+  animation: flicker 3s infinite alternate;
 }
 
 h1 {
-  font-size: 1.8rem;
-  margin-bottom: 25px;
-  font-weight: 700;
-  color: #6b3fa0;
-  text-shadow: 1px 1px 3px rgba(255, 255, 255, 0.6);
+  font-size: 1.2rem;
+  color: #00ffc8;
+  margin-bottom: 30px;
+  text-shadow:
+    0 0 5px #00ffc8,
+    0 0 10px #00ffc8,
+    0 0 20px #00ffc8,
+    0 0 30px #00ffc8;
 }
 
 .blessing-box {
-  background: #fff0f6;
-  border: 2px solid #d97ec1;
-  border-radius: 12px;
+  background: #001f27;
+  border: 2px solid #00ffea;
+  border-radius: 10px;
   padding: 25px 20px;
-  font-size: 1.2rem;
-  min-height: 120px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #8b3e7c;
-  box-shadow: inset 0 0 10px #f0c6db;
+  min-height: 140px;
+  font-size: 0.9rem;
+  color: #00ffc8;
+  box-shadow:
+    0 0 10px #00ffc8,
+    inset 0 0 5px #00ffc8;
   margin-bottom: 30px;
-  transition: opacity 0.5s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  line-height: 1.3;
+  user-select: none;
 }
 
 button {
-  background: #d97ec1;
+  background: #00ffea;
   border: none;
-  padding: 12px 25px;
-  font-size: 1.1rem;
-  border-radius: 10px;
-  color: white;
+  padding: 12px 30px;
+  font-size: 0.85rem;
+  font-weight: bold;
+  border-radius: 8px;
+  color: #001f27;
   cursor: pointer;
-  font-weight: 600;
-  box-shadow: 0 5px 10px rgba(217, 126, 193, 0.6);
-  transition: background-color 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  box-shadow: 0 0 10px #00ffea;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 button:hover {
-  background-color: #c26ba8;
-  box-shadow: 0 6px 14px rgba(194, 107, 168, 0.8);
+  background-color: #00ffc8;
+  box-shadow: 0 0 20px #00ffc8;
 }
 
 .fade-in {
-  animation: fadeInAnimation 0.7s ease forwards;
+  animation: fadeInAnimation 0.5s ease forwards;
 }
 
 @keyframes fadeInAnimation {
   from { opacity: 0; }
   to { opacity: 1; }
+}
+
+@keyframes flicker {
+  0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+    opacity: 1;
+    box-shadow: 0 0 20px #00ffea, inset 0 0 10px #00ffea;
+  }
+  20%, 22%, 24%, 55% {
+    opacity: 0.85;
+    box-shadow: 0 0 10px #00ccbb, inset 0 0 5px #00ccbb;
+  }
 }
