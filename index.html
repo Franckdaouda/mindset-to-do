@@ -1,19 +1,776 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>200 Compliments pour Toi, Mon chaton  Kris ❤</title>
-  <link rel="stylesheet" href="style.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mon Planning Informatique</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2c3e50, #3498db);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .progress-bar {
+            background: rgba(255,255,255,0.2);
+            border-radius: 10px;
+            height: 10px;
+            margin-top: 20px;
+        }
+
+        .progress-fill {
+            background: #27ae60;
+            height: 100%;
+            border-radius: 10px;
+            transition: width 0.5s ease;
+        }
+
+        .week-selector {
+            padding: 20px;
+            background: #f8f9fa;
+            border-bottom: 1px solid #dee2e6;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .week-btn {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .week-btn:hover {
+            background: #0056b3;
+            transform: translateY(-2px);
+        }
+
+        .week-btn.active {
+            background: #28a745;
+        }
+
+        .content {
+            padding: 30px;
+        }
+
+        .day-section {
+            margin-bottom: 40px;
+            border: 1px solid #e9ecef;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .day-header {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            padding: 20px;
+            font-size: 1.3rem;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .day-progress {
+            background: rgba(255,255,255,0.3);
+            border-radius: 10px;
+            padding: 5px 15px;
+            font-size: 0.9rem;
+        }
+
+        .task-group {
+            padding: 20px;
+            border-bottom: 1px solid #f1f3f4;
+        }
+
+        .task-group:last-child {
+            border-bottom: none;
+        }
+
+        .task-group h4 {
+            color: #495057;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+
+        .task {
+            display: flex;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #f8f9fa;
+            transition: all 0.3s;
+        }
+
+        .task:hover {
+            background: #f8f9fa;
+            border-radius: 5px;
+        }
+
+        .task input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            margin-right: 15px;
+            cursor: pointer;
+            accent-color: #28a745;
+        }
+
+        .task-time {
+            background: #007bff;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            margin-right: 15px;
+            min-width: 100px;
+            text-align: center;
+        }
+
+        .task-description {
+            flex: 1;
+            font-size: 0.95rem;
+        }
+
+        .task.completed {
+            opacity: 0.7;
+            text-decoration: line-through;
+        }
+
+        .notes-section {
+            margin-top: 15px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .notes-section textarea {
+            width: 100%;
+            min-height: 80px;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            padding: 10px;
+            font-family: inherit;
+            resize: vertical;
+        }
+
+        .stats {
+            background: #f8f9fa;
+            padding: 30px;
+            margin-top: 20px;
+            border-radius: 10px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #007bff;
+        }
+
+        .export-btn {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            margin: 10px;
+            transition: all 0.3s;
+        }
+
+        .export-btn:hover {
+            background: #218838;
+            transform: translateY(-2px);
+        }
+
+        .motivation {
+            background: linear-gradient(45deg, #ff6b6b, #feca57);
+            color: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+            text-align: center;
+            font-style: italic;
+        }
+
+        @media (max-width: 768px) {
+            .task-time {
+                min-width: 80px;
+                font-size: 0.7rem;
+            }
+            
+            .header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .stats {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
 <body>
-  <div class="container">
-    <h1>200 Compliments pour Toi, Mon Alienne Kris ❤</h1>
-    <div class="blessing-box" id="blessingBox">
-      Clique sur "Suivant" pour découvrir ton premier compliment 😘
+    <div class="container">
+        <div class="header">
+            <h1>🚀 Mon Planning Informatique</h1>
+            <p>Objectif : Devenir un talent recherché en 12 mois</p>
+            <div class="progress-bar">
+                <div class="progress-fill" id="globalProgress"></div>
+            </div>
+            <p id="progressText">Progression globale : 0%</p>
+        </div>
+
+        <div class="week-selector">
+            <button class="week-btn active" onclick="selectWeek(1)">Semaine 1</button>
+            <button class="week-btn" onclick="selectWeek(2)">Semaine 2</button>
+            <button class="week-btn" onclick="selectWeek(3)">Semaine 3</button>
+            <button class="week-btn" onclick="selectWeek(4)">Semaine 4</button>
+            <button class="export-btn" onclick="exportProgress()">📊 Exporter</button>
+        </div>
+
+        <div class="content" id="weekContent">
+            <!-- Lundi -->
+            <div class="day-section">
+                <div class="day-header">
+                    <span>📅 LUNDI - Fondamentaux & Algorithmique</span>
+                    <span class="day-progress" id="monday-progress">0/5 tâches</span>
+                </div>
+                
+                <div class="task-group">
+                    <h4>☀️ Matin</h4>
+                    <div class="task">
+                        <input type="checkbox" onchange="updateProgress()">
+                        <span class="task-time">9h00-10h30</span>
+                        <span class="task-description">Regarder 2-3 vidéos cours algorithmique (Coursera/YouTube)</span>
+                    </div>
+                    <div class="task">
+                        <input type="checkbox" onchange="updateProgress()">
+                        <span class="task-time">10h45-12h15</span>
+                        <span class="task-description">Écrire du code Python - Exercices de base (3 exercices simples)</span>
+                    </div>
+                </div>
+
+                <div class="task-group">
+                    <h4>🌆 Après-midi</h4>
+                    <div class="task">
+                        <input type="checkbox" onchange="updateProgress()">
+                        <span class="task-time">14h00-15h30</span>
+                        <span class="task-description">Résoudre 2 problèmes sur HackerRank (niveau facile)</span>
+                    </div>
+                    <div class="task">
+                        <input type="checkbox" onchange="updateProgress()">
+                        <span class="task-time">15h45-17h00</span>
+                        <span class="task-description">Lire 1 article technique sur Python</span>
+                    </div>
+                </div>
+
+                <div class="task-group">
+                    <h4>🌙 Soir</h4>
+                    <div class="task">
+                        <input type="checkbox" onchange="updateProgress()">
+                        <span class="task-time">19h00-20h00</span>
+                        <span class="task-description">Réviser et noter 3 choses apprises aujourd'hui</span>
+                    </div>
+                </div>
+
+                <div class="notes-section">
+                    <h5>📝 Notes du jour :</h5>
+                    <textarea placeholder="Ce que j'ai appris, difficultés rencontrées, objectifs pour demain..."></textarea>
+                </div>
+            </div>
+
+            <!-- Mardi -->
+            <div class="day-section">
+                <div class="day-header">
+                    <span>📅 MARDI - Structures de Données</span>
+                    <span class="day-progress" id="tuesday-progress">0/5 tâches</span>
+                </div>
+                
+                <div class="task-group">
+                    <h4>☀️ Matin</h4>
+                    <div class="task">
+                        <input type="checkbox" onchange="updateProgress()">
+                        <span class="task-time">9h00-10h30</span>
+                        <span class="task-description">Cours sur les listes et tableaux</span>
+                    </div>
+                    <div class="task">
+                        <input type="checkbox" onchange="updateProgress()">
+                        <span class="task-time">10h45-12h15</span>
+                        <span class="task-description">Programmer une classe Liste en Python</span>
+                    </div>
+                </div>
+
+                <div class="task-group">
+                    <h4>🌆 Après-midi</h4>
+                    <div class="task">
+                        <input type="checkbox" onchange="updateProgress()">
+                        <span class="task-time">14h00-15h30</span>
+                        <span class="task-description">Résoudre 2 exercices LeetCode sur les listes</span>
+                    </div>
+                    <div class="task">
+                        <input type="checkbox" onchange="updateProgress()">
+                        <span class="task-time">15h45-17h00</span>
+                        <span class="task-description">Travailler sur projet personnel</span>
+                    </div>
+                </div>
+
+                <div class="task-group">
+                    <h4>🌙 Soir</h4>
+                    <div class="task">
+                        <input type="checkbox" onchange="updateProgress()">
+                        <span class="task-time">19h00-20h00</span>
+                        <span class="task-description">Poser 1 question sur Stack Overflow ou Discord Python</span>
+                    </div>
+                </div>
+
+                <div class="notes-section">
+                    <h5>📝 Notes du jour :</h5>
+                    <textarea placeholder="Ce que j'ai appris, difficultés rencontrées, objectifs pour demain..."></textarea>
+                </div>
+            </div>
+
+            <!-- Mercredi -->
+            <div class="day-section">
+                <div class="day-header">
+                    <span>📅 MERCREDI - Bases de Données</span>
+                    <span class="day-progress" id="wednesday-progress">0/5 tâches</span>
+                </div>
+                
+                <div class="task-group">
+                    <h4>☀️ Matin</h4>
+                    <div class="task">
+                        <input type="checkbox" onchange="updateProgress()">
+                        <span class="task-time">9h00-10h30</span>
+                        <span class="task-description">Apprendre SQL de base (SELECT, WHERE, ORDER BY)</span>
+                    </div>
+                    <div class="task">
+                        <input type="checkbox" onchange="updateProgress()">
+                        <span class="task-time">10h45-12h15</span>
+                        <span class="task-description">Pratiquer SQL - 5 exercices sur SQLBolt</span>
+                    </div>
+                </div>
+
+                <div class="task-group">
+                    <h4>🌆 Après-midi</h4>
+                    <div class="task">
+                        <input type="checkbox" onchange="updateProgress()">
+                        <span class="task-time">14h00-15h30</span>
+                        <span class="task-description">Découvrir MongoDB (NoSQL)</span>
+                    </div>
+                    <div class="task">
+                        <input type="checkbox" onchange="updateProgress()">
+                        <span class="task-time">15h45-17h00</span>
+                        <span class="task-description">Créer une petite base de données pour un projet</span>
+                    </div>
+                </div>
+
+                <div class="task-group">
+                    <h4>🌙 Soir</h4>
+                    <div class="task">
+                        <input type="checkbox" onchange="updateProgress()">
+                        <span class="task-time">19h00-20h00</span>
+                        <span class="task-description">Lire newsletter technique ou blog</span>
+                    </div>
+                </div>
+
+                <div class="notes-section">
+                    <h5>📝 Notes du jour :</h5>
+                    <textarea placeholder="Ce que j'ai appris, difficultés rencontrées, objectifs pour demain..."></textarea>
+                </div>
+            </div>
+
+            <!-- Jeudi -->
+            <div class="day-section">
+                <div class="day-header">
+                    <span>📅 JEUDI - Développement Web</span>
+                    <span class="day-progress" id="thursday-progress">0/5 tâches</span>
+                </div>
+                
+                <div class="task-group">
+                    <h4>☀️ Matin</h4>
+                    <div class="task">
+                        <input type="checkbox" onchange="updateProgress()">
+                        <span class="task-time">9h00-10h30</span>
+                        <span class="task-description">Apprendre Django ou Flask (framework web Python)</span>
+                    </div>
+                    <div class="task">
+                        <input type="checkbox" onchange="updateProgress()">
+                        <span class="task-time">10h45-12h15</span>
+                        <span class="task-description">Développer sur projet web - Ajouter 1 fonctionnalité</span>
+                    </div>
+                </div>
+
+                <div class="task-group">
+                    <h4>🌆 Après-midi</h4>
+                    <div class="task">
+                        <input type="checkbox" onchange="updateProgress()">
+                        <span class="task-time">14h00-15h30</span>
+                        <span class="task-description">Apprendre HTML/CSS/JavaScript</span>
+                    </div>
+                    <div class="task">
+                        <input type="checkbox" onchange="updateProgress()">
+                        <span class="task-time">15h45-17h00</span>
+                        <span class="task-description">Améliorer l'interface de mon projet web</span>
+                    </div>
+                </div>
+
+                <div class="task-group">
+                    <h4>🌙 Soir</h4>
+                    <div class="task">
+                        <input type="checkbox" onchange="updateProgress()">
+                        <span class="task-time">19h00-20h00</span>
+                        <span class="task-description">Mettre à jour GitHub - Commit et README</span>
+                    </div>
+                </div>
+
+                <div class="notes-section">
+                    <h5>📝 Notes du jour :</h5>
+                    <textarea placeholder="Ce que j'ai appris, difficultés rencontrées, objectifs pour demain..."></textarea>
+                </div>
+            </div>
+
+            <!-- Vendredi -->
+            <div class="day-section">
+                <div class="day-header">
+                    <span>📅 VENDREDI - Systèmes & Réseaux</span>
+                    <span class="day-progress" id="friday-progress">0/5 tâches</span>
+                </div>
+                
+                <div class="task-group">
+                    <h4>☀️ Matin</h4>
+                    <div class="task">
+                        <input type="checkbox" onchange="updateProgress()">
+                        <span class="task-time">9h00-10h30</span>
+                        <span class="task-description">Apprendre les bases des réseaux (HTTP, TCP/IP)</span>
+                    </div>
+                    <div class="task">
+                        <input type="checkbox" onchange="updateProgress()">
+                        <span class="task-time">10h45-12h15</span>
+                        <span class="task-description">Pratiquer Linux - Apprendre 3 nouvelles commandes</span>
+                    </div>
+                </div>
+
+                <div class="task-group">
+                    <h4>🌆 Après-midi</h4>
+                    <div class="task">
+                        <input type="checkbox" onchange="updateProgress()">
+                        <span class="task-time">14h00-15h30</span>
+                        <span class="task-description">Configuration serveur simple</span>
+                    </div>
+                    <div class="task">
+                        <input type="checkbox" onchange="updateProgress()">
+                        <span class="task-time">15h45-17h00</span>
+                        <span class="task-description">Déployer un projet en ligne</span>
+                    </div>
+                </div>
+
+                <div class="task-group">
+                    <h4>🌙 Soir</h4>
+                    <div class="task">
+                        <input type="checkbox" onchange="updateProgress()">
+                        <span class="task-time">19h00-20h00</span>
+                        <span class="task-description">Planifier le weekend et réviser la semaine</span>
+                    </div>
+                </div>
+
+                <div class="notes-section">
+                    <h5>📝 Notes du jour :</h5>
+                    <textarea placeholder="Ce que j'ai appris, difficultés rencontrées, objectifs pour demain..."></textarea>
+                </div>
+            </div>
+
+            <!-- Weekend -->
+            <div class="day-section">
+                <div class="day-header">
+                    <span>📅 WEEKEND - Projets & Révisions</span>
+                    <span class="day-progress" id="weekend-progress">0/4 tâches</span>
+                </div>
+                
+                <div class="task-group">
+                    <h4>🚀 Samedi - Projet Intensif</h4>
+                    <div class="task">
+                        <input type="checkbox" onchange="updateProgress()">
+                        <span class="task-time">9h00-12h00</span>
+                        <span class="task-description">Développement intensif projet principal (3h)</span>
+                    </div>
+                    <div class="task">
+                        <input type="checkbox" onchange="updateProgress()">
+                        <span class="task-time">14h00-16h00</span>
+                        <span class="task-description">Tests, correction bugs et documentation</span>
+                    </div>
+                </div>
+
+                <div class="task-group">
+                    <h4>🧠 Dimanche - Révision</h4>
+                    <div class="task">
+                        <input type="checkbox" onchange="updateProgress()">
+                        <span class="task-time">10h00-12h00</span>
+                        <span class="task-description">Réviser concepts difficiles + Meetup en ligne</span>
+                    </div>
+                    <div class="task">
+                        <input type="checkbox" onchange="updateProgress()">
+                        <span class="task-time">16h00-18h00</span>
+                        <span class="task-description">Lecture technique + Planification semaine suivante</span>
+                    </div>
+                </div>
+
+                <div class="notes-section">
+                    <h5>📝 Bilan du weekend :</h5>
+                    <textarea placeholder="Projets avancés, concepts maîtrisés, objectifs atteints..."></textarea>
+                </div>
+            </div>
+        </div>
+
+        <div class="stats">
+            <div class="stat-card">
+                <div class="stat-number" id="totalTasks">0</div>
+                <div>Tâches complétées</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="completionRate">0%</div>
+                <div>Taux de réussite</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="weekStreak">1</div>
+                <div>Semaines consécutives</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="studyHours">35h</div>
+                <div>Heures d'étude/semaine</div>
+            </div>
+        </div>
+
+        <div class="motivation">
+            <h3>💪 Citation Motivation</h3>
+            <p id="motivationQuote">"Le succès, c'est 1% d'inspiration et 99% de transpiration." - Thomas Edison</p>
+        </div>
     </div>
-    <button onclick="showNextBlessing()">Suivant 🌟</button>
-  </div>
-  <script src="script.js"></script>
+
+    <script>
+        let currentWeek = 1;
+        
+        // Citations motivantes
+        const quotes = [
+            "Le succès, c'est 1% d'inspiration et 99% de transpiration. - Thomas Edison",
+            "La seule façon de faire du bon travail est d'aimer ce que vous faites. - Steve Jobs",
+            "Le code est comme l'humour. Quand vous devez l'expliquer, c'est mauvais. - Cory House",
+            "Apprendre à écrire des programmes étend votre esprit. - Bill Gates",
+            "La programmation n'est pas une science. C'est un art. - Donald Knuth"
+        ];
+
+        // Fonction pour sélectionner la semaine
+        function selectWeek(weekNum) {
+            currentWeek = weekNum;
+            
+            // Mettre à jour les boutons
+            document.querySelectorAll('.week-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelector(`[onclick="selectWeek(${weekNum})"]`).classList.add('active');
+            
+            // Charger les données de la semaine
+            loadWeekData();
+            updateMotivation();
+        }
+
+        // Charger les données d'une semaine
+        function loadWeekData() {
+            const savedData = localStorage.getItem(`week_${currentWeek}`);
+            if (savedData) {
+                const data = JSON.parse(savedData);
+                
+                // Restaurer les checkboxes
+                document.querySelectorAll('input[type="checkbox"]').forEach((checkbox, index) => {
+                    checkbox.checked = data.tasks[index] || false;
+                    updateTaskAppearance(checkbox);
+                });
+                
+                // Restaurer les notes
+                document.querySelectorAll('textarea').forEach((textarea, index) => {
+                    textarea.value = data.notes[index] || '';
+                });
+            } else {
+                // Réinitialiser si pas de données
+                document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+                    checkbox.checked = false;
+                    updateTaskAppearance(checkbox);
+                });
+                document.querySelectorAll('textarea').forEach(textarea => {
+                    textarea.value = '';
+                });
+            }
+            
+            updateProgress();
+        }
+
+        // Sauvegarder les données
+        function saveWeekData() {
+            const tasks = Array.from(document.querySelectorAll('input[type="checkbox"]')).map(cb => cb.checked);
+            const notes = Array.from(document.querySelectorAll('textarea')).map(ta => ta.value);
+            
+            const data = { tasks, notes, lastUpdated: new Date().toISOString() };
+            localStorage.setItem(`week_${currentWeek}`, JSON.stringify(data));
+        }
+
+        // Mettre à jour l'apparence d'une tâche
+        function updateTaskAppearance(checkbox) {
+            const task = checkbox.closest('.task');
+            if (checkbox.checked) {
+                task.classList.add('completed');
+            } else {
+                task.classList.remove('completed');
+            }
+        }
+
+        // Helpers pour calculer les durées d'étude à partir des créneaux "HHhMM-HHhMM"
+        function parseTimeToMinutes(timeStr) {
+            // ex: "9h00" ou "14h30"
+            const match = timeStr.trim().match(/^(\d{1,2})h(\d{2})$/);
+            if (!match) return 0;
+            const hours = parseInt(match[1], 10);
+            const minutes = parseInt(match[2], 10);
+            return hours * 60 + minutes;
+        }
+
+        function durationFromRange(rangeStr) {
+            // ex: "9h00-10h30"
+            if (!rangeStr || typeof rangeStr !== 'string') return 0;
+            const parts = rangeStr.split('-');
+            if (parts.length !== 2) return 0;
+            const startMin = parseTimeToMinutes(parts[0]);
+            const endMin = parseTimeToMinutes(parts[1]);
+            if (endMin >= startMin) return endMin - startMin;
+            // Pas de gestion de chevauchement de jour, retourne 0 si incohérent
+            return 0;
+        }
+
+        // Mettre à jour les statistiques
+        function updateProgress() {
+            const allCheckboxes = document.querySelectorAll('.task input[type="checkbox"]');
+            const checkedBoxes = document.querySelectorAll('.task input[type="checkbox"]:checked');
+
+            // Progression globale
+            const globalProgress = allCheckboxes.length > 0 ? (checkedBoxes.length / allCheckboxes.length) * 100 : 0;
+            document.getElementById('globalProgress').style.width = globalProgress + '%';
+            document.getElementById('progressText').textContent = `Progression globale : ${Math.round(globalProgress)}%`;
+
+            // Progression par jour (calcul dynamique par section)
+            const daySections = document.querySelectorAll('.day-section');
+            daySections.forEach(section => {
+                const dayCheckboxes = section.querySelectorAll('.task input[type="checkbox"]');
+                const dayCompleted = section.querySelectorAll('.task input[type="checkbox"]:checked').length;
+                const progressEl = section.querySelector('.day-progress');
+                if (progressEl) {
+                    progressEl.textContent = `${dayCompleted}/${dayCheckboxes.length} tâches`;
+                }
+            });
+
+            // Statistiques générales
+            document.getElementById('totalTasks').textContent = checkedBoxes.length;
+            document.getElementById('completionRate').textContent = Math.round(globalProgress) + '%';
+
+            // Calcul dynamique des heures d'étude basées sur les tâches cochées
+            let totalMinutes = 0;
+            document.querySelectorAll('.task').forEach(task => {
+                const cb = task.querySelector('input[type="checkbox"]');
+                const timeEl = task.querySelector('.task-time');
+                if (cb && cb.checked && timeEl) {
+                    totalMinutes += durationFromRange(timeEl.textContent);
+                }
+            });
+            const hours = Math.floor(totalMinutes / 60);
+            const minutes = totalMinutes % 60;
+            document.getElementById('studyHours').textContent = minutes ? `${hours}h ${minutes}m` : `${hours}h`;
+
+            // Sauvegarder automatiquement
+            saveWeekData();
+
+            // Mettre à jour l'apparence des tâches
+            allCheckboxes.forEach(updateTaskAppearance);
+        }
+
+        // Changer la citation de motivation
+        function updateMotivation() {
+            const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
+            document.getElementById('motivationQuote').textContent = randomQuote;
+        }
+
+        // Exporter les données
+        function exportProgress() {
+            const allData = {};
+            for (let i = 1; i <= 4; i++) {
+                const weekData = localStorage.getItem(`week_${i}`);
+                if (weekData) {
+                    allData[`Semaine ${i}`] = JSON.parse(weekData);
+                }
+            }
+            
+            const dataStr = JSON.stringify(allData, null, 2);
+            const dataBlob = new Blob([dataStr], {type: 'application/json'});
+            
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(dataBlob);
+            link.download = 'mon_progres_informatique.json';
+            link.click();
+        }
+
+        // Sauvegarder les notes automatiquement
+        document.addEventListener('input', function(e) {
+            if (e.target.tagName === 'TEXTAREA') {
+                saveWeekData();
+            }
+        });
+
+        // Initialiser l'application
+        document.addEventListener('DOMContentLoaded', function() {
+            loadWeekData();
+            updateMotivation();
+            
+            // Changer la motivation toutes les heures
+            setInterval(updateMotivation, 3600000);
+        });
+    </script>
 </body>
 </html>
