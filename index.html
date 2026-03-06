@@ -1,776 +1,697 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mon Planning Informatique</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kit Commercial – Smart Restaurant System · Abidjan</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #C9A84C;
+    --gold-light: #E8CC7A;
+    --dark: #0E0D0B;
+    --dark2: #1A1814;
+    --dark3: #252220;
+    --cream: #F5EDD8;
+    --cream2: #EDE0C4;
+    --text: #D4C9B0;
+    --accent: #E05A2B;
+    --green: #4CAF7D;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: var(--dark);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    line-height: 1.7;
+  }
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            padding: 20px;
-        }
+  /* HERO */
+  .hero {
+    background: linear-gradient(135deg, var(--dark) 0%, var(--dark2) 60%, #1c1408 100%);
+    border-bottom: 1px solid #333;
+    padding: 60px 40px 50px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -80px; left: 50%;
+    transform: translateX(-50%);
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(201,168,76,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .badge {
+    display: inline-block;
+    background: rgba(201,168,76,0.15);
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    padding: 6px 18px;
+    border-radius: 20px;
+    margin-bottom: 20px;
+  }
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(32px, 6vw, 64px);
+    color: var(--cream);
+    line-height: 1.1;
+    margin-bottom: 16px;
+  }
+  .hero h1 span { color: var(--gold); }
+  .hero p {
+    font-size: 16px;
+    color: var(--text);
+    max-width: 560px;
+    margin: 0 auto;
+    opacity: 0.85;
+  }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 15px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-            overflow: hidden;
-        }
+  /* NAV TABS */
+  .tabs {
+    display: flex;
+    gap: 0;
+    background: var(--dark2);
+    border-bottom: 1px solid #2a2820;
+    overflow-x: auto;
+    padding: 0 20px;
+  }
+  .tab {
+    padding: 16px 24px;
+    font-size: 13px;
+    font-weight: 500;
+    color: #888;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    white-space: nowrap;
+    transition: all .25s;
+    letter-spacing: .5px;
+  }
+  .tab:hover { color: var(--cream2); }
+  .tab.active { color: var(--gold); border-bottom-color: var(--gold); }
 
-        .header {
-            background: linear-gradient(135deg, #2c3e50, #3498db);
-            color: white;
-            padding: 30px;
-            text-align: center;
-        }
+  /* SECTIONS */
+  .section { display: none; padding: 40px; max-width: 860px; margin: 0 auto; }
+  .section.active { display: block; }
 
-        .header h1 {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-        }
+  /* CARDS */
+  .card {
+    background: var(--dark2);
+    border: 1px solid #2a2820;
+    border-radius: 12px;
+    padding: 28px 32px;
+    margin-bottom: 24px;
+  }
+  .card-label {
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 10px;
+  }
+  .card h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    color: var(--cream);
+    margin-bottom: 16px;
+  }
+  .card h3 {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--cream2);
+    margin-bottom: 8px;
+  }
 
-        .progress-bar {
-            background: rgba(255,255,255,0.2);
-            border-radius: 10px;
-            height: 10px;
-            margin-top: 20px;
-        }
+  /* SCRIPT BLOCK */
+  .script-block {
+    background: var(--dark3);
+    border-left: 3px solid var(--gold);
+    border-radius: 0 8px 8px 0;
+    padding: 18px 22px;
+    margin: 16px 0;
+    font-style: italic;
+    color: var(--cream);
+    font-size: 15px;
+    line-height: 1.8;
+  }
+  .script-block.partner {
+    border-left-color: #5B9BD5;
+    color: #b8d4f0;
+  }
+  .speaker {
+    font-style: normal;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    display: block;
+  }
+  .speaker.you { color: var(--gold); }
+  .speaker.partner { color: #5B9BD5; }
+  .speaker.gerant { color: #E05A2B; }
 
-        .progress-fill {
-            background: #27ae60;
-            height: 100%;
-            border-radius: 10px;
-            transition: width 0.5s ease;
-        }
+  /* OBJECTION */
+  .objection-item {
+    background: var(--dark3);
+    border: 1px solid #2a2820;
+    border-radius: 10px;
+    margin-bottom: 16px;
+    overflow: hidden;
+  }
+  .obj-q {
+    padding: 16px 20px;
+    background: rgba(224,90,43,0.1);
+    border-bottom: 1px solid #2a2820;
+    color: #e08060;
+    font-weight: 500;
+    font-size: 14px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .obj-q::after { content: '▾'; font-size: 16px; transition: .2s; }
+  .obj-q.open::after { transform: rotate(180deg); }
+  .obj-a {
+    padding: 0 20px;
+    max-height: 0;
+    overflow: hidden;
+    transition: all .3s ease;
+    font-size: 14px;
+    color: var(--cream);
+    line-height: 1.8;
+  }
+  .obj-a.open { padding: 18px 20px; max-height: 300px; }
+  .obj-a strong { color: var(--gold); }
 
-        .week-selector {
-            padding: 20px;
-            background: #f8f9fa;
-            border-bottom: 1px solid #dee2e6;
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            flex-wrap: wrap;
-        }
+  /* TIMELINE / STEPS */
+  .steps { position: relative; padding-left: 32px; }
+  .steps::before {
+    content: '';
+    position: absolute;
+    left: 10px; top: 0; bottom: 0;
+    width: 1px;
+    background: linear-gradient(to bottom, var(--gold), transparent);
+  }
+  .step { position: relative; margin-bottom: 28px; }
+  .step-dot {
+    position: absolute;
+    left: -32px; top: 4px;
+    width: 20px; height: 20px;
+    background: var(--gold);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 10px; font-weight: 700;
+    color: var(--dark);
+  }
+  .step h3 { color: var(--cream); font-size: 15px; font-weight: 600; margin-bottom: 6px; }
+  .step p { font-size: 13px; color: #aaa; }
 
-        .week-btn {
-            background: #007bff;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 25px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
+  /* PRIX */
+  .price-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; }
+  .price-card {
+    background: var(--dark3);
+    border: 1px solid #2a2820;
+    border-radius: 12px;
+    padding: 24px;
+    text-align: center;
+  }
+  .price-card.featured { border-color: var(--gold); background: rgba(201,168,76,0.06); }
+  .price-card .price { font-family: 'Playfair Display', serif; font-size: 32px; color: var(--gold); }
+  .price-card .unit { font-size: 12px; color: #888; }
+  .price-card h3 { color: var(--cream); margin: 10px 0 12px; font-size: 15px; }
+  .price-card ul { list-style: none; font-size: 13px; color: #aaa; text-align: left; }
+  .price-card ul li { padding: 4px 0; }
+  .price-card ul li::before { content: '✓ '; color: var(--green); }
 
-        .week-btn:hover {
-            background: #0056b3;
-            transform: translateY(-2px);
-        }
+  /* CHIP */
+  .chip {
+    display: inline-block;
+    background: rgba(201,168,76,0.12);
+    border: 1px solid rgba(201,168,76,0.3);
+    color: var(--gold-light);
+    font-size: 12px;
+    padding: 4px 12px;
+    border-radius: 20px;
+    margin: 4px 4px 0 0;
+  }
 
-        .week-btn.active {
-            background: #28a745;
-        }
+  /* TIP BOX */
+  .tip {
+    background: rgba(76,175,125,0.1);
+    border: 1px solid rgba(76,175,125,0.3);
+    border-radius: 10px;
+    padding: 16px 20px;
+    font-size: 13.5px;
+    color: #9de8bf;
+    margin: 16px 0;
+  }
+  .tip strong { color: var(--green); }
 
-        .content {
-            padding: 30px;
-        }
+  .warn {
+    background: rgba(224,90,43,0.08);
+    border: 1px solid rgba(224,90,43,0.25);
+    border-radius: 10px;
+    padding: 14px 18px;
+    font-size: 13px;
+    color: #f0a080;
+    margin: 12px 0;
+  }
 
-        .day-section {
-            margin-bottom: 40px;
-            border: 1px solid #e9ecef;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
+  /* TIMER */
+  .timer-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(224,90,43,0.12);
+    border: 1px solid rgba(224,90,43,0.3);
+    border-radius: 20px;
+    padding: 6px 16px;
+    font-size: 13px;
+    color: #f08060;
+    margin-bottom: 20px;
+  }
 
-        .day-header {
-            background: linear-gradient(45deg, #667eea, #764ba2);
-            color: white;
-            padding: 20px;
-            font-size: 1.3rem;
-            font-weight: bold;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+  /* RESTAURANT LIST */
+  .resto-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; }
+  .resto-item {
+    background: var(--dark3);
+    border: 1px solid #2a2820;
+    border-radius: 10px;
+    padding: 14px 18px;
+    font-size: 13px;
+  }
+  .resto-item .name { font-weight: 600; color: var(--cream); margin-bottom: 4px; }
+  .resto-item .zone { font-size: 11px; color: #888; }
+  .resto-item .score {
+    margin-top: 8px;
+    font-size: 11px;
+    color: var(--gold);
+    font-weight: 600;
+  }
+  .bar { height: 4px; background: #222; border-radius: 2px; margin-top: 6px; }
+  .bar-fill { height: 100%; border-radius: 2px; background: var(--gold); }
 
-        .day-progress {
-            background: rgba(255,255,255,0.3);
-            border-radius: 10px;
-            padding: 5px 15px;
-            font-size: 0.9rem;
-        }
-
-        .task-group {
-            padding: 20px;
-            border-bottom: 1px solid #f1f3f4;
-        }
-
-        .task-group:last-child {
-            border-bottom: none;
-        }
-
-        .task-group h4 {
-            color: #495057;
-            margin-bottom: 15px;
-            font-size: 1.1rem;
-        }
-
-        .task {
-            display: flex;
-            align-items: center;
-            padding: 12px 0;
-            border-bottom: 1px solid #f8f9fa;
-            transition: all 0.3s;
-        }
-
-        .task:hover {
-            background: #f8f9fa;
-            border-radius: 5px;
-        }
-
-        .task input[type="checkbox"] {
-            width: 20px;
-            height: 20px;
-            margin-right: 15px;
-            cursor: pointer;
-            accent-color: #28a745;
-        }
-
-        .task-time {
-            background: #007bff;
-            color: white;
-            padding: 5px 10px;
-            border-radius: 15px;
-            font-size: 0.8rem;
-            margin-right: 15px;
-            min-width: 100px;
-            text-align: center;
-        }
-
-        .task-description {
-            flex: 1;
-            font-size: 0.95rem;
-        }
-
-        .task.completed {
-            opacity: 0.7;
-            text-decoration: line-through;
-        }
-
-        .notes-section {
-            margin-top: 15px;
-            padding: 15px;
-            background: #f8f9fa;
-            border-radius: 8px;
-        }
-
-        .notes-section textarea {
-            width: 100%;
-            min-height: 80px;
-            border: 1px solid #dee2e6;
-            border-radius: 5px;
-            padding: 10px;
-            font-family: inherit;
-            resize: vertical;
-        }
-
-        .stats {
-            background: #f8f9fa;
-            padding: 30px;
-            margin-top: 20px;
-            border-radius: 10px;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-        }
-
-        .stat-card {
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            text-align: center;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-
-        .stat-number {
-            font-size: 2rem;
-            font-weight: bold;
-            color: #007bff;
-        }
-
-        .export-btn {
-            background: #28a745;
-            color: white;
-            border: none;
-            padding: 15px 30px;
-            border-radius: 25px;
-            cursor: pointer;
-            font-size: 1rem;
-            margin: 10px;
-            transition: all 0.3s;
-        }
-
-        .export-btn:hover {
-            background: #218838;
-            transform: translateY(-2px);
-        }
-
-        .motivation {
-            background: linear-gradient(45deg, #ff6b6b, #feca57);
-            color: white;
-            padding: 20px;
-            margin: 20px 0;
-            border-radius: 10px;
-            text-align: center;
-            font-style: italic;
-        }
-
-        @media (max-width: 768px) {
-            .task-time {
-                min-width: 80px;
-                font-size: 0.7rem;
-            }
-            
-            .header h1 {
-                font-size: 1.8rem;
-            }
-            
-            .stats {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
+  @media (max-width: 600px) {
+    .section { padding: 24px 18px; }
+    .hero { padding: 40px 20px 36px; }
+    .card { padding: 20px; }
+  }
+</style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>🚀 Mon Planning Informatique</h1>
-            <p>Objectif : Devenir un talent recherché en 12 mois</p>
-            <div class="progress-bar">
-                <div class="progress-fill" id="globalProgress"></div>
-            </div>
-            <p id="progressText">Progression globale : 0%</p>
-        </div>
 
-        <div class="week-selector">
-            <button class="week-btn active" onclick="selectWeek(1)">Semaine 1</button>
-            <button class="week-btn" onclick="selectWeek(2)">Semaine 2</button>
-            <button class="week-btn" onclick="selectWeek(3)">Semaine 3</button>
-            <button class="week-btn" onclick="selectWeek(4)">Semaine 4</button>
-            <button class="export-btn" onclick="exportProgress()">📊 Exporter</button>
-        </div>
+<div class="hero">
+  <div class="badge">Kit Commercial · Abidjan 2025</div>
+  <h1>Smart<br><span>Restaurant System</span></h1>
+  <p>Tout ce qu'il te faut pour signer tes premiers contrats NFC à Abidjan — script, objections, stratégie terrain.</p>
+</div>
 
-        <div class="content" id="weekContent">
-            <!-- Lundi -->
-            <div class="day-section">
-                <div class="day-header">
-                    <span>📅 LUNDI - Fondamentaux & Algorithmique</span>
-                    <span class="day-progress" id="monday-progress">0/5 tâches</span>
-                </div>
-                
-                <div class="task-group">
-                    <h4>☀️ Matin</h4>
-                    <div class="task">
-                        <input type="checkbox" onchange="updateProgress()">
-                        <span class="task-time">9h00-10h30</span>
-                        <span class="task-description">Regarder 2-3 vidéos cours algorithmique (Coursera/YouTube)</span>
-                    </div>
-                    <div class="task">
-                        <input type="checkbox" onchange="updateProgress()">
-                        <span class="task-time">10h45-12h15</span>
-                        <span class="task-description">Écrire du code Python - Exercices de base (3 exercices simples)</span>
-                    </div>
-                </div>
+<div class="tabs">
+  <div class="tab active" onclick="show('script')">⚡ Script 2 min</div>
+  <div class="tab" onclick="show('duo')">🤝 Duo Terrain</div>
+  <div class="tab" onclick="show('objections')">🛡 Objections</div>
+  <div class="tab" onclick="show('journee')">📅 Journée 3 restos</div>
+  <div class="tab" onclick="show('prix')">💰 Offres</div>
+  <div class="tab" onclick="show('cibles')">📍 Cibles</div>
+</div>
 
-                <div class="task-group">
-                    <h4>🌆 Après-midi</h4>
-                    <div class="task">
-                        <input type="checkbox" onchange="updateProgress()">
-                        <span class="task-time">14h00-15h30</span>
-                        <span class="task-description">Résoudre 2 problèmes sur HackerRank (niveau facile)</span>
-                    </div>
-                    <div class="task">
-                        <input type="checkbox" onchange="updateProgress()">
-                        <span class="task-time">15h45-17h00</span>
-                        <span class="task-description">Lire 1 article technique sur Python</span>
-                    </div>
-                </div>
+<!-- SCRIPT 2 MIN -->
+<div id="script" class="section active">
+  <div class="timer-badge">⏱ 90 secondes chrono — Script validé terrain</div>
 
-                <div class="task-group">
-                    <h4>🌙 Soir</h4>
-                    <div class="task">
-                        <input type="checkbox" onchange="updateProgress()">
-                        <span class="task-time">19h00-20h00</span>
-                        <span class="task-description">Réviser et noter 3 choses apprises aujourd'hui</span>
-                    </div>
-                </div>
+  <div class="card">
+    <div class="card-label">Accroche</div>
+    <div class="script-block">
+      <span class="speaker you">Toi</span>
+      "Bonjour, excusez-moi de vous déranger. Je suis en train de travailler avec quelques restaurants ici à Abidjan pour les aider à augmenter leur visibilité et fidéliser leurs clients grâce à une solution digitale. Est-ce que vous avez 2 minutes ?"
+    </div>
+    <div class="tip">💡 <strong>Pourquoi ça marche :</strong> Tu ne dis pas "je vends". Tu dis "je travaille avec". Tu positionnes le gérant comme une opportunité, pas une cible.</div>
+  </div>
 
-                <div class="notes-section">
-                    <h5>📝 Notes du jour :</h5>
-                    <textarea placeholder="Ce que j'ai appris, difficultés rencontrées, objectifs pour demain..."></textarea>
-                </div>
-            </div>
+  <div class="card">
+    <div class="card-label">Accroche — si gérant pressé</div>
+    <div class="script-block">
+      <span class="speaker you">Toi</span>
+      "Je vous prends 60 secondes. Après, si ça ne vous intéresse pas, je repars."
+    </div>
+    <div class="warn">⚠️ Ne commence jamais par "je vends des cartes NFC". Commence toujours par le <strong>problème du gérant</strong>.</div>
+  </div>
 
-            <!-- Mardi -->
-            <div class="day-section">
-                <div class="day-header">
-                    <span>📅 MARDI - Structures de Données</span>
-                    <span class="day-progress" id="tuesday-progress">0/5 tâches</span>
-                </div>
-                
-                <div class="task-group">
-                    <h4>☀️ Matin</h4>
-                    <div class="task">
-                        <input type="checkbox" onchange="updateProgress()">
-                        <span class="task-time">9h00-10h30</span>
-                        <span class="task-description">Cours sur les listes et tableaux</span>
-                    </div>
-                    <div class="task">
-                        <input type="checkbox" onchange="updateProgress()">
-                        <span class="task-time">10h45-12h15</span>
-                        <span class="task-description">Programmer une classe Liste en Python</span>
-                    </div>
-                </div>
+  <div class="card">
+    <div class="card-label">Corps du pitch — 60 secondes</div>
+    <div class="script-block">
+      <span class="speaker you">Toi</span>
+      "Voilà ce qu'on fait : on remplace le menu papier par une solution intelligente.<br><br>
+      Le client arrive à la table, il approche son téléphone de cette petite carte — et le menu du restaurant s'ouvre instantanément sur son téléphone. Avec les photos des plats, les descriptions, les promotions du jour.<br><br>
+      Et la différence clé avec un simple menu papier : ce menu reste dans le téléphone du client même après son départ. Donc il peut revenir, partager, commander à distance."
+    </div>
+    <div class="tip">🎯 À ce moment précis, <strong>sors la carte NFC et fais la démo en direct</strong>. Silence. Laisse le gérant toucher, approcher son téléphone.</div>
+  </div>
 
-                <div class="task-group">
-                    <h4>🌆 Après-midi</h4>
-                    <div class="task">
-                        <input type="checkbox" onchange="updateProgress()">
-                        <span class="task-time">14h00-15h30</span>
-                        <span class="task-description">Résoudre 2 exercices LeetCode sur les listes</span>
-                    </div>
-                    <div class="task">
-                        <input type="checkbox" onchange="updateProgress()">
-                        <span class="task-time">15h45-17h00</span>
-                        <span class="task-description">Travailler sur projet personnel</span>
-                    </div>
-                </div>
+  <div class="card">
+    <div class="card-label">Phrase de fermeture</div>
+    <div class="script-block">
+      <span class="speaker you">Toi</span>
+      "On peut installer un test gratuit sur une table pendant 5 jours. Vous voyez la réaction de vos clients, et après vous décidez. Ça vous dit ?"
+    </div>
+    <div class="tip">✅ <strong>Ne demande pas si ça intéresse.</strong> Propose une étape concrète, simple, sans risque pour lui.</div>
+  </div>
+</div>
 
-                <div class="task-group">
-                    <h4>🌙 Soir</h4>
-                    <div class="task">
-                        <input type="checkbox" onchange="updateProgress()">
-                        <span class="task-time">19h00-20h00</span>
-                        <span class="task-description">Poser 1 question sur Stack Overflow ou Discord Python</span>
-                    </div>
-                </div>
+<!-- DUO TERRAIN -->
+<div id="duo" class="section">
+  <div class="card">
+    <div class="card-label">Répartition des rôles</div>
+    <h2>Toi + Ton ami = équipe de choc</h2>
+    <p style="margin-bottom:20px; color:#aaa; font-size:14px;">Deux personnes qui présentent ensemble = crédibilité x3. Le gérant voit une <strong style="color:var(--cream)">équipe professionnelle</strong>, pas un vendeur solo.</p>
 
-                <div class="notes-section">
-                    <h5>📝 Notes du jour :</h5>
-                    <textarea placeholder="Ce que j'ai appris, difficultés rencontrées, objectifs pour demain..."></textarea>
-                </div>
-            </div>
+    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:16px;">
+      <div style="background:rgba(201,168,76,0.08); border:1px solid rgba(201,168,76,0.25); border-radius:10px; padding:20px;">
+        <div style="font-size:11px; letter-spacing:2px; text-transform:uppercase; color:var(--gold); margin-bottom:10px;">Toi · Le Commercial</div>
+        <ul style="list-style:none; font-size:13px; color:#ccc; line-height:2;">
+          <li>🗣 Tu parles au gérant</li>
+          <li>📊 Tu expliques les avantages</li>
+          <li>💬 Tu gères les objections</li>
+          <li>🤝 Tu fermes le deal</li>
+        </ul>
+      </div>
+      <div style="background:rgba(91,155,213,0.08); border:1px solid rgba(91,155,213,0.25); border-radius:10px; padding:20px;">
+        <div style="font-size:11px; letter-spacing:2px; text-transform:uppercase; color:#5B9BD5; margin-bottom:10px;">Ami · Le Technicien</div>
+        <ul style="list-style:none; font-size:13px; color:#ccc; line-height:2;">
+          <li>📱 Il fait la démo en direct</li>
+          <li>🔧 Il montre les modifications</li>
+          <li>🖥 Il ouvre le back-office</li>
+          <li>📸 Il montre les photos des plats</li>
+        </ul>
+      </div>
+    </div>
+  </div>
 
-            <!-- Mercredi -->
-            <div class="day-section">
-                <div class="day-header">
-                    <span>📅 MERCREDI - Bases de Données</span>
-                    <span class="day-progress" id="wednesday-progress">0/5 tâches</span>
-                </div>
-                
-                <div class="task-group">
-                    <h4>☀️ Matin</h4>
-                    <div class="task">
-                        <input type="checkbox" onchange="updateProgress()">
-                        <span class="task-time">9h00-10h30</span>
-                        <span class="task-description">Apprendre SQL de base (SELECT, WHERE, ORDER BY)</span>
-                    </div>
-                    <div class="task">
-                        <input type="checkbox" onchange="updateProgress()">
-                        <span class="task-time">10h45-12h15</span>
-                        <span class="task-description">Pratiquer SQL - 5 exercices sur SQLBolt</span>
-                    </div>
-                </div>
+  <div class="card">
+    <div class="card-label">Simulation complète à deux</div>
+    <div class="script-block">
+      <span class="speaker you">Toi</span>
+      "Bonjour monsieur, excusez-nous de vous déranger. On travaille avec plusieurs restaurants d'Abidjan sur une solution pour moderniser l'expérience client. Est-ce qu'on peut vous montrer quelque chose en 2 minutes ?"
+    </div>
+    <div class="script-block" style="border-left-color: var(--accent);">
+      <span class="speaker gerant">Gérant</span>
+      "C'est quoi exactement ?"
+    </div>
+    <div class="script-block">
+      <span class="speaker you">Toi</span>
+      "Au lieu d'un menu papier classique, vos clients accèdent à votre menu directement depuis leur téléphone — avec les photos, les promotions, les prix actualisés. Je laisse mon collègue vous montrer en direct."
+    </div>
+    <div class="script-block partner">
+      <span class="speaker partner">Ton ami</span>
+      <em>(approche la carte NFC du téléphone)</em><br>
+      "Voilà — le menu s'ouvre instantanément. Pas d'application à télécharger. Et si un téléphone n'est pas NFC, il y a un QR code à l'arrière."
+    </div>
+    <div class="script-block">
+      <span class="speaker you">Toi</span>
+      "Et le plus intéressant pour vous : si vous changez un prix aujourd'hui, c'est modifié en ligne immédiatement. Fini les menus papier à réimprimer à chaque fois."
+    </div>
+    <div class="script-block partner">
+      <span class="speaker partner">Ton ami</span>
+      <em>(ouvre le panneau d'administration)</em><br>
+      "Tenez, regardez. Là je change le prix de ce plat… et c'est déjà à jour sur le menu client."
+    </div>
+    <div class="script-block">
+      <span class="speaker you">Toi</span>
+      "On peut faire un test gratuit de 5 jours sur une ou deux tables. Vous voyez comment vos clients réagissent — et vous nous dites. Est-ce qu'on peut commencer cette semaine ?"
+    </div>
+  </div>
 
-                <div class="task-group">
-                    <h4>🌆 Après-midi</h4>
-                    <div class="task">
-                        <input type="checkbox" onchange="updateProgress()">
-                        <span class="task-time">14h00-15h30</span>
-                        <span class="task-description">Découvrir MongoDB (NoSQL)</span>
-                    </div>
-                    <div class="task">
-                        <input type="checkbox" onchange="updateProgress()">
-                        <span class="task-time">15h45-17h00</span>
-                        <span class="task-description">Créer une petite base de données pour un projet</span>
-                    </div>
-                </div>
+  <div class="tip">🔥 <strong>Règle d'or :</strong> Quand ton ami fait la démo, toi tu te tais. Tu observes le gérant. Tu lis ses réactions. Si ses yeux s'allument, tu enchaînes immédiatement sur la phrase de fermeture.</div>
+</div>
 
-                <div class="task-group">
-                    <h4>🌙 Soir</h4>
-                    <div class="task">
-                        <input type="checkbox" onchange="updateProgress()">
-                        <span class="task-time">19h00-20h00</span>
-                        <span class="task-description">Lire newsletter technique ou blog</span>
-                    </div>
-                </div>
+<!-- OBJECTIONS -->
+<div id="objections" class="section">
+  <div class="card">
+    <div class="card-label">Les 9 objections les plus fréquentes à Abidjan</div>
+    <h2>Chaque "non" a une réponse</h2>
+    <p style="font-size:13px; color:#888; margin-bottom:24px;">Clique sur chaque objection pour voir la réponse exacte à donner.</p>
 
-                <div class="notes-section">
-                    <h5>📝 Notes du jour :</h5>
-                    <textarea placeholder="Ce que j'ai appris, difficultés rencontrées, objectifs pour demain..."></textarea>
-                </div>
-            </div>
-
-            <!-- Jeudi -->
-            <div class="day-section">
-                <div class="day-header">
-                    <span>📅 JEUDI - Développement Web</span>
-                    <span class="day-progress" id="thursday-progress">0/5 tâches</span>
-                </div>
-                
-                <div class="task-group">
-                    <h4>☀️ Matin</h4>
-                    <div class="task">
-                        <input type="checkbox" onchange="updateProgress()">
-                        <span class="task-time">9h00-10h30</span>
-                        <span class="task-description">Apprendre Django ou Flask (framework web Python)</span>
-                    </div>
-                    <div class="task">
-                        <input type="checkbox" onchange="updateProgress()">
-                        <span class="task-time">10h45-12h15</span>
-                        <span class="task-description">Développer sur projet web - Ajouter 1 fonctionnalité</span>
-                    </div>
-                </div>
-
-                <div class="task-group">
-                    <h4>🌆 Après-midi</h4>
-                    <div class="task">
-                        <input type="checkbox" onchange="updateProgress()">
-                        <span class="task-time">14h00-15h30</span>
-                        <span class="task-description">Apprendre HTML/CSS/JavaScript</span>
-                    </div>
-                    <div class="task">
-                        <input type="checkbox" onchange="updateProgress()">
-                        <span class="task-time">15h45-17h00</span>
-                        <span class="task-description">Améliorer l'interface de mon projet web</span>
-                    </div>
-                </div>
-
-                <div class="task-group">
-                    <h4>🌙 Soir</h4>
-                    <div class="task">
-                        <input type="checkbox" onchange="updateProgress()">
-                        <span class="task-time">19h00-20h00</span>
-                        <span class="task-description">Mettre à jour GitHub - Commit et README</span>
-                    </div>
-                </div>
-
-                <div class="notes-section">
-                    <h5>📝 Notes du jour :</h5>
-                    <textarea placeholder="Ce que j'ai appris, difficultés rencontrées, objectifs pour demain..."></textarea>
-                </div>
-            </div>
-
-            <!-- Vendredi -->
-            <div class="day-section">
-                <div class="day-header">
-                    <span>📅 VENDREDI - Systèmes & Réseaux</span>
-                    <span class="day-progress" id="friday-progress">0/5 tâches</span>
-                </div>
-                
-                <div class="task-group">
-                    <h4>☀️ Matin</h4>
-                    <div class="task">
-                        <input type="checkbox" onchange="updateProgress()">
-                        <span class="task-time">9h00-10h30</span>
-                        <span class="task-description">Apprendre les bases des réseaux (HTTP, TCP/IP)</span>
-                    </div>
-                    <div class="task">
-                        <input type="checkbox" onchange="updateProgress()">
-                        <span class="task-time">10h45-12h15</span>
-                        <span class="task-description">Pratiquer Linux - Apprendre 3 nouvelles commandes</span>
-                    </div>
-                </div>
-
-                <div class="task-group">
-                    <h4>🌆 Après-midi</h4>
-                    <div class="task">
-                        <input type="checkbox" onchange="updateProgress()">
-                        <span class="task-time">14h00-15h30</span>
-                        <span class="task-description">Configuration serveur simple</span>
-                    </div>
-                    <div class="task">
-                        <input type="checkbox" onchange="updateProgress()">
-                        <span class="task-time">15h45-17h00</span>
-                        <span class="task-description">Déployer un projet en ligne</span>
-                    </div>
-                </div>
-
-                <div class="task-group">
-                    <h4>🌙 Soir</h4>
-                    <div class="task">
-                        <input type="checkbox" onchange="updateProgress()">
-                        <span class="task-time">19h00-20h00</span>
-                        <span class="task-description">Planifier le weekend et réviser la semaine</span>
-                    </div>
-                </div>
-
-                <div class="notes-section">
-                    <h5>📝 Notes du jour :</h5>
-                    <textarea placeholder="Ce que j'ai appris, difficultés rencontrées, objectifs pour demain..."></textarea>
-                </div>
-            </div>
-
-            <!-- Weekend -->
-            <div class="day-section">
-                <div class="day-header">
-                    <span>📅 WEEKEND - Projets & Révisions</span>
-                    <span class="day-progress" id="weekend-progress">0/4 tâches</span>
-                </div>
-                
-                <div class="task-group">
-                    <h4>🚀 Samedi - Projet Intensif</h4>
-                    <div class="task">
-                        <input type="checkbox" onchange="updateProgress()">
-                        <span class="task-time">9h00-12h00</span>
-                        <span class="task-description">Développement intensif projet principal (3h)</span>
-                    </div>
-                    <div class="task">
-                        <input type="checkbox" onchange="updateProgress()">
-                        <span class="task-time">14h00-16h00</span>
-                        <span class="task-description">Tests, correction bugs et documentation</span>
-                    </div>
-                </div>
-
-                <div class="task-group">
-                    <h4>🧠 Dimanche - Révision</h4>
-                    <div class="task">
-                        <input type="checkbox" onchange="updateProgress()">
-                        <span class="task-time">10h00-12h00</span>
-                        <span class="task-description">Réviser concepts difficiles + Meetup en ligne</span>
-                    </div>
-                    <div class="task">
-                        <input type="checkbox" onchange="updateProgress()">
-                        <span class="task-time">16h00-18h00</span>
-                        <span class="task-description">Lecture technique + Planification semaine suivante</span>
-                    </div>
-                </div>
-
-                <div class="notes-section">
-                    <h5>📝 Bilan du weekend :</h5>
-                    <textarea placeholder="Projets avancés, concepts maîtrisés, objectifs atteints..."></textarea>
-                </div>
-            </div>
-        </div>
-
-        <div class="stats">
-            <div class="stat-card">
-                <div class="stat-number" id="totalTasks">0</div>
-                <div>Tâches complétées</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-number" id="completionRate">0%</div>
-                <div>Taux de réussite</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-number" id="weekStreak">1</div>
-                <div>Semaines consécutives</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-number" id="studyHours">35h</div>
-                <div>Heures d'étude/semaine</div>
-            </div>
-        </div>
-
-        <div class="motivation">
-            <h3>💪 Citation Motivation</h3>
-            <p id="motivationQuote">"Le succès, c'est 1% d'inspiration et 99% de transpiration." - Thomas Edison</p>
-        </div>
+    <div class="objection-item">
+      <div class="obj-q" onclick="toggleObj(this)">"On a déjà des menus papier, ça marche très bien."</div>
+      <div class="obj-a">"Absolument, et vous les gardez ! Ce n'est pas un remplacement. C'est un <strong>complément</strong>. La carte NFC, c'est pour les clients qui préfèrent utiliser leur téléphone — et il y en a de plus en plus. Et contrairement au menu papier, quand un client repart chez lui, il a encore votre menu dans son téléphone. Il peut revenir ou partager à ses amis."</div>
     </div>
 
-    <script>
-        let currentWeek = 1;
-        
-        // Citations motivantes
-        const quotes = [
-            "Le succès, c'est 1% d'inspiration et 99% de transpiration. - Thomas Edison",
-            "La seule façon de faire du bon travail est d'aimer ce que vous faites. - Steve Jobs",
-            "Le code est comme l'humour. Quand vous devez l'expliquer, c'est mauvais. - Cory House",
-            "Apprendre à écrire des programmes étend votre esprit. - Bill Gates",
-            "La programmation n'est pas une science. C'est un art. - Donald Knuth"
-        ];
+    <div class="objection-item">
+      <div class="obj-q" onclick="toggleObj(this)">"Et si le client n'a pas le NFC sur son téléphone ?"</div>
+      <div class="obj-a">"Excellente question — c'est exactement pour ça qu'on met <strong>un QR code au dos de la carte</strong>. 100% des téléphones peuvent scanner un QR code. Donc aucun client n'est laissé de côté."</div>
+    </div>
 
-        // Fonction pour sélectionner la semaine
-        function selectWeek(weekNum) {
-            currentWeek = weekNum;
-            
-            // Mettre à jour les boutons
-            document.querySelectorAll('.week-btn').forEach(btn => btn.classList.remove('active'));
-            document.querySelector(`[onclick="selectWeek(${weekNum})"]`).classList.add('active');
-            
-            // Charger les données de la semaine
-            loadWeekData();
-            updateMotivation();
-        }
+    <div class="objection-item">
+      <div class="obj-q" onclick="toggleObj(this)">"Mes clients ne sont pas des technophiles."</div>
+      <div class="obj-a">"C'est là où vous allez être surpris. Le NFC, c'est exactement comme approcher une carte bancaire sans contact. Vos clients le font déjà tous les jours à la caisse. Le réflexe est <strong>naturel et immédiat</strong>. Et pour les autres, le QR code suffit."</div>
+    </div>
 
-        // Charger les données d'une semaine
-        function loadWeekData() {
-            const savedData = localStorage.getItem(`week_${currentWeek}`);
-            if (savedData) {
-                const data = JSON.parse(savedData);
-                
-                // Restaurer les checkboxes
-                document.querySelectorAll('input[type="checkbox"]').forEach((checkbox, index) => {
-                    checkbox.checked = data.tasks[index] || false;
-                    updateTaskAppearance(checkbox);
-                });
-                
-                // Restaurer les notes
-                document.querySelectorAll('textarea').forEach((textarea, index) => {
-                    textarea.value = data.notes[index] || '';
-                });
-            } else {
-                // Réinitialiser si pas de données
-                document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
-                    checkbox.checked = false;
-                    updateTaskAppearance(checkbox);
-                });
-                document.querySelectorAll('textarea').forEach(textarea => {
-                    textarea.value = '';
-                });
-            }
-            
-            updateProgress();
-        }
+    <div class="objection-item">
+      <div class="obj-q" onclick="toggleObj(this)">"Ça coûte combien ?"</div>
+      <div class="obj-a">"On commence par un test <strong>sans frais</strong> pendant 5 jours — vous voyez d'abord si ça correspond à vos clients. Après, le pack complet démarre à 50 000 FCFA, c'est un investissement unique. Comparé aux menus papier que vous réimprimez tous les mois ou tous les trimestres, vous êtes gagnant sur la durée."</div>
+    </div>
 
-        // Sauvegarder les données
-        function saveWeekData() {
-            const tasks = Array.from(document.querySelectorAll('input[type="checkbox"]')).map(cb => cb.checked);
-            const notes = Array.from(document.querySelectorAll('textarea')).map(ta => ta.value);
-            
-            const data = { tasks, notes, lastUpdated: new Date().toISOString() };
-            localStorage.setItem(`week_${currentWeek}`, JSON.stringify(data));
-        }
+    <div class="objection-item">
+      <div class="obj-q" onclick="toggleObj(this)">"Je dois en parler à mon patron / associé."</div>
+      <div class="obj-a">"Bien sûr, c'est normal. Est-ce qu'on peut fixer un rendez-vous rapide avec lui cette semaine ? Je vous prépare une démonstration complète. Et si vous voulez, on peut commencer le test gratuit dès maintenant — comme ça votre patron verra déjà les retours clients en temps réel."</div>
+    </div>
 
-        // Mettre à jour l'apparence d'une tâche
-        function updateTaskAppearance(checkbox) {
-            const task = checkbox.closest('.task');
-            if (checkbox.checked) {
-                task.classList.add('completed');
-            } else {
-                task.classList.remove('completed');
-            }
-        }
+    <div class="objection-item">
+      <div class="obj-q" onclick="toggleObj(this)">"Je n'ai pas le temps maintenant."</div>
+      <div class="obj-a">"Je comprends, vous êtes occupé. C'est justement pour ça qu'on vient ici : pour vous faire <strong>gagner du temps</strong>. Je reviens à l'heure qui vous convient — matin, après le service, peu importe. Quand est-ce que vous êtes disponible 5 minutes ?"</div>
+    </div>
 
-        // Helpers pour calculer les durées d'étude à partir des créneaux "HHhMM-HHhMM"
-        function parseTimeToMinutes(timeStr) {
-            // ex: "9h00" ou "14h30"
-            const match = timeStr.trim().match(/^(\d{1,2})h(\d{2})$/);
-            if (!match) return 0;
-            const hours = parseInt(match[1], 10);
-            const minutes = parseInt(match[2], 10);
-            return hours * 60 + minutes;
-        }
+    <div class="objection-item">
+      <div class="obj-q" onclick="toggleObj(this)">"On n'a pas de connexion stable."</div>
+      <div class="obj-a">"Le menu est accessible même avec une connexion faible. Et pour vos clients, ils utilisent leur propre réseau mobile — pas le WiFi du restaurant. Aucun problème de ce côté."</div>
+    </div>
 
-        function durationFromRange(rangeStr) {
-            // ex: "9h00-10h30"
-            if (!rangeStr || typeof rangeStr !== 'string') return 0;
-            const parts = rangeStr.split('-');
-            if (parts.length !== 2) return 0;
-            const startMin = parseTimeToMinutes(parts[0]);
-            const endMin = parseTimeToMinutes(parts[1]);
-            if (endMin >= startMin) return endMin - startMin;
-            // Pas de gestion de chevauchement de jour, retourne 0 si incohérent
-            return 0;
-        }
+    <div class="objection-item">
+      <div class="obj-q" onclick="toggleObj(this)">"J'ai déjà essayé quelque chose comme ça, ça n'a pas marché."</div>
+      <div class="obj-a">"Je comprends votre prudence, c'est légitime. Qu'est-ce qui n'avait pas fonctionné ? <em>(écoute)</em>… C'est exactement pour ça qu'on propose le test gratuit d'abord. Si à la fin des 5 jours vous ne voyez aucune réaction positive de vos clients, vous me le dites et on s'arrête là. Aucun engagement."</div>
+    </div>
 
-        // Mettre à jour les statistiques
-        function updateProgress() {
-            const allCheckboxes = document.querySelectorAll('.task input[type="checkbox"]');
-            const checkedBoxes = document.querySelectorAll('.task input[type="checkbox"]:checked');
+    <div class="objection-item">
+      <div class="obj-q" onclick="toggleObj(this)">"Ce n'est pas utile pour mon type de restaurant."</div>
+      <div class="obj-a">"Justement, dites-moi. Quel est votre client type ? <em>(écoute)</em>… Dans ce cas, l'avantage pour vous c'est surtout [adapter selon la réponse : fidélisation / visibilité Google / promotions]. On peut configurer le menu exactement pour votre clientèle."</div>
+    </div>
+  </div>
+</div>
 
-            // Progression globale
-            const globalProgress = allCheckboxes.length > 0 ? (checkedBoxes.length / allCheckboxes.length) * 100 : 0;
-            document.getElementById('globalProgress').style.width = globalProgress + '%';
-            document.getElementById('progressText').textContent = `Progression globale : ${Math.round(globalProgress)}%`;
+<!-- JOURNÉE 3 RESTOS -->
+<div id="journee" class="section">
+  <div class="card">
+    <div class="card-label">Stratégie terrain</div>
+    <h2>Signer 3 restaurants en une journée</h2>
+    <p style="font-size:13px; color:#aaa; margin-bottom:28px;">Ce n'est pas de la chance. C'est une méthode. Voici comment organiser ta journée.</p>
 
-            // Progression par jour (calcul dynamique par section)
-            const daySections = document.querySelectorAll('.day-section');
-            daySections.forEach(section => {
-                const dayCheckboxes = section.querySelectorAll('.task input[type="checkbox"]');
-                const dayCompleted = section.querySelectorAll('.task input[type="checkbox"]:checked').length;
-                const progressEl = section.querySelector('.day-progress');
-                if (progressEl) {
-                    progressEl.textContent = `${dayCompleted}/${dayCheckboxes.length} tâches`;
-                }
-            });
+    <div class="steps">
+      <div class="step">
+        <div class="step-dot">1</div>
+        <h3>7h–8h · Préparation à la maison</h3>
+        <p>Charge la démo du menu. Vérifie que la carte NFC fonctionne. Prépare 10 cartes de visite simples avec ton nom et WhatsApp. Identifie tes 6 cibles du jour (3 confirmées + 3 backup).</p>
+      </div>
+      <div class="step">
+        <div class="step-dot">2</div>
+        <h3>9h–10h · Premier restaurant · Zone calme (avant le rush)</h3>
+        <p>Cible : restaurant de quartier (Angré, Riviera). Les gérants sont disponibles le matin avant 11h. Script 2 min + démo. Si intéressé → propose test gratuit et fixe rendez-vous de confirmation à 17h.</p>
+      </div>
+      <div class="step">
+        <div class="step-dot">3</div>
+        <h3>10h30–11h30 · Deuxième restaurant</h3>
+        <p>Même zone géographique = moins de déplacement. Profite du momentum : tu arrives confiant après ton premier pitch. Le gérant le sent.</p>
+      </div>
+      <div class="step">
+        <div class="step-dot">4</div>
+        <h3>12h–14h · Pause + suivi WhatsApp</h3>
+        <p>Envoie un message de suivi aux gérants de la matinée avec une capture du menu démo. C'est le moment où les gérants ont plus de temps entre deux services.</p>
+      </div>
+      <div class="step">
+        <div class="step-dot">5</div>
+        <h3>15h–17h · Troisième restaurant · Zone différente</h3>
+        <p>Cible un restaurant de niveau supérieur (Navy Blue, 5 Fourchettes). Tu arrives avec l'énergie de 2 pitchs déjà faits. Tu es rodé. Propose le pack premium.</p>
+      </div>
+      <div class="step">
+        <div class="step-dot">6</div>
+        <h3>17h–18h · Confirmation des tests gratuits</h3>
+        <p>Rappel des gérants du matin. Confirme l'installation. Note : même si tu n'as signé qu'un seul contrat payant ce jour-là, <strong>3 tests gratuits = 3 deals en cours</strong>.</p>
+      </div>
+    </div>
+  </div>
 
-            // Statistiques générales
-            document.getElementById('totalTasks').textContent = checkedBoxes.length;
-            document.getElementById('completionRate').textContent = Math.round(globalProgress) + '%';
+  <div class="card">
+    <div class="card-label">Messages WhatsApp de suivi</div>
+    <h3>Message après un pitch positif</h3>
+    <div class="script-block">
+      "Bonjour [Nom], c'est [Ton prénom] — on s'est vus ce matin au restaurant. Je vous envoie ici le lien de démonstration du menu digital 👉 [lien]. Je passe vous installer le test gratuit demain matin si vous êtes disponible. Dites-moi l'heure qui vous convient."
+    </div>
 
-            // Calcul dynamique des heures d'étude basées sur les tâches cochées
-            let totalMinutes = 0;
-            document.querySelectorAll('.task').forEach(task => {
-                const cb = task.querySelector('input[type="checkbox"]');
-                const timeEl = task.querySelector('.task-time');
-                if (cb && cb.checked && timeEl) {
-                    totalMinutes += durationFromRange(timeEl.textContent);
-                }
-            });
-            const hours = Math.floor(totalMinutes / 60);
-            const minutes = totalMinutes % 60;
-            document.getElementById('studyHours').textContent = minutes ? `${hours}h ${minutes}m` : `${hours}h`;
+    <h3 style="margin-top:20px;">Message si pas de réponse après 2 jours</h3>
+    <div class="script-block">
+      "Bonjour [Nom], je voulais juste m'assurer que vous aviez pu tester le menu. Est-ce que vous avez des questions ? Je reste disponible."
+    </div>
+    <div class="tip">🕐 <strong>Règle des 24h :</strong> Toujours relancer dans les 24h après le pitch. Plus tu attends, plus le gérant oublie.</div>
+  </div>
 
-            // Sauvegarder automatiquement
-            saveWeekData();
+  <div class="card">
+    <div class="card-label">Règles d'or</div>
+    <div style="display:flex; flex-direction:column; gap:10px; font-size:13.5px;">
+      <div style="display:flex;gap:12px;align-items:flex-start;"><span style="color:var(--green);font-size:18px;">✓</span><span>Va toujours en binôme. La démo en direct vaut 10x plus que n'importe quel discours.</span></div>
+      <div style="display:flex;gap:12px;align-items:flex-start;"><span style="color:var(--green);font-size:18px;">✓</span><span>Commence par les restaurants de taille moyenne. Plus facile d'approcher le gérant direct.</span></div>
+      <div style="display:flex;gap:12px;align-items:flex-start;"><span style="color:var(--green);font-size:18px;">✓</span><span>Propose toujours le test gratuit en premier. Ça réduit le risque perçu à zéro.</span></div>
+      <div style="display:flex;gap:12px;align-items:flex-start;"><span style="color:var(--accent);font-size:18px;">✗</span><span>Ne force jamais un gérant. Un refus poli = futur client potentiel si tu es resté professionnel.</span></div>
+      <div style="display:flex;gap:12px;align-items:flex-start;"><span style="color:var(--accent);font-size:18px;">✗</span><span>N'arrive pas à l'heure du rush (12h–13h30). Tu déranges, le gérant dit non par réflexe.</span></div>
+    </div>
+  </div>
+</div>
 
-            // Mettre à jour l'apparence des tâches
-            allCheckboxes.forEach(updateTaskAppearance);
-        }
+<!-- PRIX -->
+<div id="prix" class="section">
+  <div class="card">
+    <div class="card-label">Structure tarifaire</div>
+    <h2>3 niveaux selon le restaurant</h2>
+    <div class="price-grid" style="margin-top:24px;">
+      <div class="price-card">
+        <div class="price">Gratuit</div>
+        <div class="unit">test 5 jours</div>
+        <h3>Découverte</h3>
+        <ul>
+          <li>1 carte NFC installée</li>
+          <li>Menu de démo configuré</li>
+          <li>Accès QR code</li>
+          <li>Sans engagement</li>
+        </ul>
+      </div>
+      <div class="price-card featured">
+        <div class="price">50k–80k</div>
+        <div class="unit">FCFA · paiement unique</div>
+        <h3>Pack Essentiel ⭐</h3>
+        <ul>
+          <li>1–3 cartes NFC</li>
+          <li>Menu digital complet</li>
+          <li>Photos + descriptions</li>
+          <li>Modifications à distance</li>
+          <li>QR code intégré</li>
+          <li>Liens réseaux sociaux</li>
+        </ul>
+      </div>
+      <div class="price-card">
+        <div class="price">100k–150k</div>
+        <div class="unit">FCFA · paiement unique</div>
+        <h3>Pack Premium</h3>
+        <ul>
+          <li>5–10 cartes NFC</li>
+          <li>Tout l'Essentiel +</li>
+          <li>Bouton avis Google</li>
+          <li>Statistiques de consultation</li>
+          <li>Promotions automatiques</li>
+          <li>Optimisation Google</li>
+        </ul>
+      </div>
+    </div>
+  </div>
 
-        // Changer la citation de motivation
-        function updateMotivation() {
-            const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
-            document.getElementById('motivationQuote').textContent = randomQuote;
-        }
+  <div class="card">
+    <div class="card-label">Argument prix à utiliser</div>
+    <div class="script-block">
+      <span class="speaker you">Toi</span>
+      "Un menu papier à réimprimer, c'est 10 000 à 30 000 FCFA à chaque modification. Avec notre solution, vous modifiez en ligne en 2 minutes. En 3 mois, vous avez rentabilisé l'investissement."
+    </div>
+  </div>
+</div>
 
-        // Exporter les données
-        function exportProgress() {
-            const allData = {};
-            for (let i = 1; i <= 4; i++) {
-                const weekData = localStorage.getItem(`week_${i}`);
-                if (weekData) {
-                    allData[`Semaine ${i}`] = JSON.parse(weekData);
-                }
-            }
-            
-            const dataStr = JSON.stringify(allData, null, 2);
-            const dataBlob = new Blob([dataStr], {type: 'application/json'});
-            
-            const link = document.createElement('a');
-            link.href = URL.createObjectURL(dataBlob);
-            link.download = 'mon_progres_informatique.json';
-            link.click();
-        }
+<!-- CIBLES -->
+<div id="cibles" class="section">
+  <div class="card">
+    <div class="card-label">Restaurants prioritaires à Abidjan</div>
+    <h2>Commence par ceux-là</h2>
+    <p style="font-size:13px; color:#888; margin-bottom:24px;">Score de facilité = probabilité d'avoir accès au décideur + ouverture aux solutions digitales.</p>
+    <div class="resto-list">
+      <div class="resto-item">
+        <div class="name">Navy Blue</div>
+        <div class="zone">Cocody</div>
+        <div class="score">Facilité : 85%</div>
+        <div class="bar"><div class="bar-fill" style="width:85%"></div></div>
+      </div>
+      <div class="resto-item">
+        <div class="name">Le Balafon</div>
+        <div class="zone">Angré</div>
+        <div class="score">Facilité : 82%</div>
+        <div class="bar"><div class="bar-fill" style="width:82%"></div></div>
+      </div>
+      <div class="resto-item">
+        <div class="name">Agha</div>
+        <div class="zone">Zone 4</div>
+        <div class="score">Facilité : 80%</div>
+        <div class="bar"><div class="bar-fill" style="width:80%"></div></div>
+      </div>
+      <div class="resto-item">
+        <div class="name">La Parenthèse</div>
+        <div class="zone">Koumassi</div>
+        <div class="score">Facilité : 78%</div>
+        <div class="bar"><div class="bar-fill" style="width:78%"></div></div>
+      </div>
+      <div class="resto-item">
+        <div class="name">La Méchoui</div>
+        <div class="zone">Zone 4</div>
+        <div class="score">Facilité : 75%</div>
+        <div class="bar"><div class="bar-fill" style="width:75%"></div></div>
+      </div>
+      <div class="resto-item">
+        <div class="name">5 Fourchettes</div>
+        <div class="zone">Riviera</div>
+        <div class="score">Facilité : 70%</div>
+        <div class="bar"><div class="bar-fill" style="width:70%"></div></div>
+      </div>
+      <div class="resto-item">
+        <div class="name">KFC Latrille</div>
+        <div class="zone">Plateau</div>
+        <div class="score">Facilité : 45%</div>
+        <div class="bar"><div class="bar-fill" style="width:45%"></div></div>
+      </div>
+      <div class="resto-item">
+        <div class="name">Hôtel Ivoire</div>
+        <div class="zone">Cocody</div>
+        <div class="score">Facilité : 40%</div>
+        <div class="bar"><div class="bar-fill" style="width:40%"></div></div>
+      </div>
+    </div>
+    <div class="tip" style="margin-top:20px;">📌 <strong>KFC et Hôtel Ivoire</strong> : chaînes avec processus de décision longs. Garde-les pour plus tard quand tu as des références. <strong>Commence par les indépendants.</strong></div>
+  </div>
 
-        // Sauvegarder les notes automatiquement
-        document.addEventListener('input', function(e) {
-            if (e.target.tagName === 'TEXTAREA') {
-                saveWeekData();
-            }
-        });
+  <div class="card">
+    <div class="card-label">Profil idéal pour signer vite</div>
+    <div style="display:flex; flex-wrap:wrap; gap:8px; margin-top:4px;">
+      <span class="chip">Restaurant indépendant</span>
+      <span class="chip">Gérant présent sur place</span>
+      <span class="chip">Clientèle jeune 20–40 ans</span>
+      <span class="chip">Actif sur Instagram</span>
+      <span class="chip">Menu qui change souvent</span>
+      <span class="chip">Sans site web actuel</span>
+      <span class="chip">Zone Cocody / Angré / Zone 4</span>
+    </div>
+  </div>
+</div>
 
-        // Initialiser l'application
-        document.addEventListener('DOMContentLoaded', function() {
-            loadWeekData();
-            updateMotivation();
-            
-            // Changer la motivation toutes les heures
-            setInterval(updateMotivation, 3600000);
-        });
-    </script>
+<script>
+  function show(id) {
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    event.currentTarget.classList.add('active');
+  }
+  function toggleObj(el) {
+    const ans = el.nextElementSibling;
+    const isOpen = ans.classList.contains('open');
+    document.querySelectorAll('.obj-a').forEach(a => a.classList.remove('open'));
+    document.querySelectorAll('.obj-q').forEach(q => q.classList.remove('open'));
+    if (!isOpen) { ans.classList.add('open'); el.classList.add('open'); }
+  }
+</script>
 </body>
 </html>
